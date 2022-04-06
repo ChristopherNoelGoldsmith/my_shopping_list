@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: bisque;
+}
+h1 {
+  margin: auto;
+}
+main {
+  margin: auto;
+}
+main .li-parent {
+  background-color: azure;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 2px 2px 2px black;
+}
+main .li-parent > * {
+}
