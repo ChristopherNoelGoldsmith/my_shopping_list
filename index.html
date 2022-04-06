@@ -30,21 +30,27 @@
     <title>My Shopping List</title>
   </head>
   <body>
-    <h1>My Shopping List</h1>
     <main id="container">
-      <section id="input-con">
-        <input id="add-price" type="number" />
-
-        <input id="add-item" type="text" />
-
-        <div class="fa-solid fa-circle-plus" id="add-btn"></div>
+      <div class="top">
         <div id="sorting">
-          <div class="fa-solid fa-caret-down" id="acending"></div>
+          <i class="fa-solid fa-caret-up" id="decending"></i>
+          <i class="fa-solid fa-caret-down" id="acending"></i>
+        </div>
+        <h1>My Shopping List</h1>
+        <i class="fa-solid fa-circle-plus" id="add-btn"></i>
+      </div>
+      <section id="input-con">
+        <div>
+          <div class="fa-solid fa-money-bill-1-wave"></div>
+          <input id="add-price" type="number" />
+        </div>
 
-          <div class="fa-solid fa-caret-up" id="decending"></div>
+        <div>
+          <input id="add-item" type="text" />
+          <div class="fa-solid fa-clipboard-list"></div>
         </div>
       </section>
-
+      <div id="total"><span>$0</span></div>
       <div id="list"></div>
     </main>
   </body>

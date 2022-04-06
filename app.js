@@ -1,7 +1,8 @@
 (function () {
   //CONSTRUCTORS
   //LIST ITEM CONST
-  const ListItem = function (price, item) {
+  const ListItem = function (price, item, id) {
+    this.id = id;
     this.price = price;
     this.item = item;
   };
@@ -17,20 +18,42 @@
   //
 
   MakeList.prototype.deleteFromList = function (el) {
-    //nth child slice from list;
-    $(`#${el}`).parent().remove();
+    const delTarget = $(`#${el}`).parent().attr('id');
+
+    this.list.every((el) => {
+      if (el.id === delTarget) {
+        const delIndex = this.list.indexOf(el);
+        this.list.splice(delIndex, 1);
+        return false;
+      }
+    });
+    //nth child remove from list;
+    return $(`#${el}`).parent().remove();
   };
 
   MakeList.prototype.createListItem = function () {
     const item = $('#add-item').val();
     const price = $('#add-price').val();
+    if (item == '' || price == '') return;
+    const id = `${item}-${Math.floor(Math.random() * 1000)}`;
 
     $('#add-price').add('#add-item').val('');
 
-    const newItem = new ListItem(price, item);
+    const newItem = new ListItem(price, item, id);
     newItem.makeTemplate();
     newItem.addToList();
     newList.list.push(newItem);
+  };
+
+  MakeList.prototype.getTotal = function () {
+    let total = 0;
+
+    this.list.forEach((el) => {
+      el.price *= 1;
+      total += el.price;
+    });
+
+    return $('#total span').text(`$${total}`);
   };
 
   //ORGANIZES LIST BY PRICE BOTH ACENDING AND DECENDING
@@ -47,8 +70,6 @@
       });
     };
 
-    console.log(this);
-
     if (type == 'acending') priceAcending();
     if (type == 'decending') priceDecending();
 
@@ -61,16 +82,15 @@
 
   //Creates list html element
   ListItem.prototype.addToList = function () {
-    console.log(this);
     $(this.template).appendTo('#list');
   };
 
   //HTML LIST TEMPLATE
   ListItem.prototype.makeTemplate = function () {
-    return (this.template = `<div class='li-parent'>
-        <div class='price'>$${this.price}</div>
+    return (this.template = `<div id=${this.id} class='li-parent'>
+        <div class='price'><i class="fa fa-money"></i> $${this.price}</div>
         <div class='item'>${this.item}</div>
-        <div class="fa-solid fa-circle-minus" id='delete-btn'></div>
+        <div class="del" id='delete-btn'>Delete<i id='delete-btn' class="fa-solid fa-trash"></i></div>
         </div>`);
   };
 
@@ -78,8 +98,20 @@
   $(document).on('click', function (event) {
     const target = event.target.id;
     console.log(event.target.id);
-    if (target == 'delete-btn') newList.deleteFromList(target);
-    if (target == 'add-btn') newList.createListItem(target);
-    if (target == 'acending' || target == 'decending') newList.organize(target);
+    switch (target) {
+      case 'delete-btn':
+        newList.deleteFromList(target);
+        break;
+      case 'add-btn':
+        newList.createListItem(target);
+        break;
+      case 'acending':
+        newList.organize(target);
+        break;
+      case 'decending':
+        newList.organize(target);
+        break;
+    }
+    newList.getTotal();
   });
 })();
